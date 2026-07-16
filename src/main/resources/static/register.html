@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>TripWise | Register</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg1:#0f172a;
+            --bg2:#2563eb;
+            --card:#ffffff;
+            --text:#172033;
+            --muted:#6b7280;
+            --primary:#2563eb;
+            --border:#e5e7eb;
+            --shadow:0 20px 50px rgba(0,0,0,.18);
+        }
+
+        *{
+            box-sizing:border-box;
+            margin:0;
+            padding:0;
+        }
+
+        body{
+            font-family:'Inter',sans-serif;
+            min-height:100vh;
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            background:linear-gradient(135deg, var(--bg1), var(--bg2));
+            padding:20px;
+            color:var(--text);
+        }
+
+        .container{
+            width:100%;
+            max-width:480px;
+            background:rgba(255,255,255,.96);
+            backdrop-filter:blur(10px);
+            border-radius:24px;
+            padding:34px;
+            box-shadow:var(--shadow);
+        }
+
+        .brand{
+            text-align:center;
+            margin-bottom:22px;
+        }
+
+        .brand h1{
+            font-size:1.8rem;
+            margin-bottom:8px;
+        }
+
+        .brand p{
+            color:var(--muted);
+            font-size:.95rem;
+        }
+
+        .form-group{
+            margin-bottom:16px;
+        }
+
+        label{
+            display:block;
+            margin-bottom:8px;
+            font-size:.92rem;
+            font-weight:600;
+        }
+
+        input{
+            width:100%;
+            padding:14px 15px;
+            border:1px solid var(--border);
+            border-radius:12px;
+            outline:none;
+            font:inherit;
+            transition:.2s ease;
+            background:#fff;
+        }
+
+        input:focus{
+            border-color:var(--primary);
+            box-shadow:0 0 0 4px rgba(37,99,235,.12);
+        }
+
+        .two-col{
+            display:grid;
+            grid-template-columns:1fr 1fr;
+            gap:12px;
+        }
+
+        .row{
+            display:flex;
+            align-items:flex-start;
+            gap:10px;
+            margin:10px 0 18px;
+            font-size:.92rem;
+            color:var(--muted);
+            line-height:1.5;
+        }
+
+        .row input{
+            width:auto;
+            margin-top:4px;
+        }
+
+        .row a{
+            color:var(--primary);
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        .btn{
+            width:100%;
+            border:none;
+            background:var(--primary);
+            color:#fff;
+            padding:14px 16px;
+            border-radius:12px;
+            font-weight:700;
+            cursor:pointer;
+            transition:.2s ease;
+        }
+
+        .btn:hover{
+            transform:translateY(-1px);
+            box-shadow:0 10px 20px rgba(37,99,235,.25);
+        }
+
+        .footer{
+            margin-top:18px;
+            text-align:center;
+            color:var(--muted);
+            font-size:.92rem;
+        }
+
+        .footer a{
+            color:var(--primary);
+            text-decoration:none;
+            font-weight:600;
+        }
+
+        @media (max-width:520px){
+            .container{
+                padding:24px;
+                border-radius:20px;
+            }
+
+            .two-col{
+                grid-template-columns:1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="brand">
+        <h1>TripWise</h1>
+        <p>Create your account to start planning trips.</p>
+    </div>
+
+    <form id="registerForm">
+        <div class="two-col">
+            <div class="form-group">
+                <label for="firstName">First Name</label>
+                <input type="text" id="firstName" name="firstName" placeholder="First name" required />
+            </div>
+
+            <div class="form-group">
+                <label for="lastName">Last Name</label>
+                <input type="text" id="lastName" name="lastName" placeholder="Last name" required />
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" placeholder="Enter your email" required />
+        </div>
+
+        <div class="form-group">
+            <label for="phone">Phone Number</label>
+            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" />
+        </div>
+
+        <div class="two-col">
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" placeholder="Create password" required />
+            </div>
+
+            <div class="form-group">
+                <label for="confirmPassword">Confirm Password</label>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm password" required />
+            </div>
+        </div>
+
+        <div class="row">
+            <input type="checkbox" id="terms" required />
+            <label for="terms" style="margin:0;font-weight:500;">
+                I agree to the <a href="#">Terms of Service</a> and <a href="#">Privacy Policy</a>.
+            </label>
+        </div>
+
+        <button class="btn" type="submit">Create Account</button>
+    </form>
+
+    <div class="footer">
+        Already have an account? <a href="login.html">Login</a>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>

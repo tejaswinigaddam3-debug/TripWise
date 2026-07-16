@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Trip Planner Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root{
+            --bg:#f3f6fb;
+            --card:#ffffff;
+            --text:#172033;
+            --muted:#667085;
+            --primary:#2563eb;
+            --primary-soft:#dbeafe;
+            --success:#16a34a;
+            --warning:#f59e0b;
+            --danger:#ef4444;
+            --border:#e5e7eb;
+            --shadow:0 12px 28px rgba(15,23,42,.08);
+            --radius:18px;
+        }
+
+        *{box-sizing:border-box;margin:0;padding:0}
+        body{
+            font-family:'Inter',sans-serif;
+            background:var(--bg);
+            color:var(--text);
+        }
+
+        .app{
+            min-height:100vh;
+            display:grid;
+            grid-template-columns:260px 1fr;
+        }
+
+        .sidebar{
+            background:#0f172a;
+            color:#fff;
+            padding:24px;
+            display:flex;
+            flex-direction:column;
+            gap:24px;
+        }
+
+        .brand{
+            font-size:1.25rem;
+            font-weight:700;
+            letter-spacing:.3px;
+        }
+
+        .nav{
+            display:grid;
+            gap:10px;
+        }
+
+        .nav a{
+            color:#cbd5e1;
+            text-decoration:none;
+            padding:12px 14px;
+            border-radius:12px;
+            transition:.2s ease;
+        }
+
+        .nav a:hover,
+        .nav a.active{
+            background:rgba(255,255,255,.08);
+            color:#fff;
+        }
+
+        .sidebar-card{
+            margin-top:auto;
+            background:rgba(255,255,255,.06);
+            border:1px solid rgba(255,255,255,.08);
+            border-radius:16px;
+            padding:16px;
+        }
+
+        .main{
+            padding:28px;
+            display:grid;
+            gap:22px;
+        }
+
+        .topbar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            gap:16px;
+            flex-wrap:wrap;
+        }
+
+        .topbar h1{
+            font-size:1.7rem;
+            margin-bottom:6px;
+        }
+
+        .topbar p{
+            color:var(--muted);
+        }
+
+        .actions{
+            display:flex;
+            gap:12px;
+            flex-wrap:wrap;
+        }
+
+        .btn{
+            border:none;
+            border-radius:12px;
+            padding:12px 16px;
+            font-weight:600;
+            cursor:pointer;
+            transition:.2s ease;
+        }
+
+        .btn.primary{
+            background:var(--primary);
+            color:#fff;
+        }
+
+        .btn.primary:hover{
+            transform:translateY(-2px);
+            box-shadow:0 8px 16px rgba(37,99,235,.3);
+        }
+
+        .btn.secondary{
+            background:#fff;
+            color:var(--text);
+            border:1px solid var(--border);
+        }
+
+        .search{
+            width:100%;
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:14px;
+            padding:14px 16px;
+            box-shadow:var(--shadow);
+            color:var(--muted);
+        }
+
+        .stats{
+            display:grid;
+            grid-template-columns:repeat(4,1fr);
+            gap:18px;
+        }
+
+        .card{
+            background:var(--card);
+            border:1px solid var(--border);
+            border-radius:var(--radius);
+            box-shadow:var(--shadow);
+        }
+
+        .stat{
+            padding:20px;
+        }
+
+        .stat h3{
+            font-size:.95rem;
+            color:var(--muted);
+            margin-bottom:10px;
+            font-weight:500;
+        }
+
+        .stat .value{
+            font-size:1.85rem;
+            font-weight:700;
+        }
+
+        .stat .trend{
+            margin-top:8px;
+            font-size:.9rem;
+            color:var(--success);
+        }
+
+        .grid{
+            display:grid;
+            grid-template-columns:2fr 1fr;
+            gap:18px;
+        }
+
+        .panel{
+            padding:22px;
+        }
+
+        .panel h2{
+            font-size:1.1rem;
+            margin-bottom:16px;
+        }
+
+        .trip-list, .budget-list, .timeline{
+            display:grid;
+            gap:14px;
+        }
+
+        .trip-item, .budget-item, .event-item{
+            padding:16px;
+            border:1px solid var(--border);
+            border-radius:12px;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+        }
+
+        .trip-info h4{
+            font-size:.95rem;
+            margin-bottom:4px;
+        }
+
+        .trip-info p{
+            font-size:.85rem;
+            color:var(--muted);
+        }
+
+        .trip-badge{
+            background:var(--primary-soft);
+            color:var(--primary);
+            padding:4px 12px;
+            border-radius:20px;
+            font-size:.8rem;
+            font-weight:600;
+        }
+
+        .budget-progress{
+            width:100%;
+            height:6px;
+            background:var(--border);
+            border-radius:3px;
+            overflow:hidden;
+            margin-top:8px;
+        }
+
+        .progress-bar{
+            height:100%;
+            background:var(--primary);
+            border-radius:3px;
+        }
+
+        @media (max-width:1024px){
+            .stats{
+                grid-template-columns:repeat(2,1fr);
+            }
+            .grid{
+                grid-template-columns:1fr;
+            }
+        }
+
+        @media (max-width:640px){
+            .app{
+                grid-template-columns:1fr;
+            }
+            .sidebar{
+                display:none;
+            }
+            .stats{
+                grid-template-columns:1fr;
+            }
+        }
+
+    </style>
+</head>
+<body>
+<div class="app">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="brand">🌍 TripWise</div>
+        <nav class="nav">
+            <a href="#" class="active">Dashboard</a>
+            <a href="#trips">My Trips</a>
+            <a href="#budget">Budget</a>
+            <a href="#settings">Settings</a>
+        </nav>
+        <div class="sidebar-card">
+            <p style="font-size:.9rem;color:#cbd5e1;line-height:1.6;">
+                Plan your next adventure with TripWise. Manage trips, budgets & itineraries all in one place.
+            </p>
+            <button id="logoutBtn" style="width:100%;margin-top:12px;padding:10px;background:rgba(255,0,0,.2);color:#fca5a5;border:1px solid rgba(255,0,0,.3);border-radius:8px;cursor:pointer;font-weight:600;transition:.2s ease;font-size:.9rem;">
+                🚪 Logout
+            </button>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="main">
+        <!-- Topbar -->
+        <div class="topbar">
+            <div>
+                <h1>Welcome back! 👋</h1>
+                <p>Here's your travel planning overview</p>
+            </div>
+            <div class="actions">
+                <button class="btn primary">+ New Trip</button>
+                <button class="btn secondary">Export</button>
+            </div>
+        </div>
+
+        <!-- Search -->
+        <input type="text" class="search" placeholder="🔍 Search trips, destinations..." />
+
+        <!-- Statistics -->
+        <div class="stats">
+            <div class="card stat">
+                <h3>Total Trips</h3>
+                <div class="value">12</div>
+                <div class="trend">↑ 2 new this month</div>
+            </div>
+            <div class="card stat">
+                <h3>Upcoming</h3>
+                <div class="value">3</div>
+                <div class="trend">Next trip in 15 days</div>
+            </div>
+            <div class="card stat">
+                <h3>Total Budget</h3>
+                <div class="value">$8,450</div>
+                <div class="trend">↓ 12% less than last year</div>
+            </div>
+            <div class="card stat">
+                <h3>Countries</h3>
+                <div class="value">18</div>
+                <div class="trend">Visited across trips</div>
+            </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid">
+            <!-- Trips Panel -->
+            <div class="card">
+                <div class="panel">
+                    <h2>📍 Recent Trips</h2>
+                    <div class="trip-list">
+                        <div class="trip-item">
+                            <div class="trip-info">
+                                <h4>Paris, France</h4>
+                                <p>June 10-20, 2026</p>
+                            </div>
+                            <div class="trip-badge">$2,100</div>
+                        </div>
+                        <div class="trip-item">
+                            <div class="trip-info">
+                                <h4>Tokyo, Japan</h4>
+                                <p>August 5-25, 2026</p>
+                            </div>
+                            <div class="trip-badge">$3,200</div>
+                        </div>
+                        <div class="trip-item">
+                            <div class="trip-info">
+                                <h4>New York, USA</h4>
+                                <p>September 1-8, 2026</p>
+                            </div>
+                            <div class="trip-badge">$1,500</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Budget & Timeline Panel -->
+            <div>
+                <!-- Budget -->
+                <div class="card" style="margin-bottom:18px;">
+                    <div class="panel">
+                        <h2>💰 Budget Status</h2>
+                        <div class="budget-list">
+                            <div class="budget-item" style="flex-direction:column;align-items:flex-start;">
+                                <div style="display:flex;justify-content:space-between;width:100%;margin-bottom:8px;">
+                                    <span>Accommodation</span>
+                                    <span style="font-weight:600;">$3,200</span>
+                                </div>
+                                <div class="budget-progress">
+                                    <div class="progress-bar" style="width:75%;"></div>
+                                </div>
+                            </div>
+                            <div class="budget-item" style="flex-direction:column;align-items:flex-start;">
+                                <div style="display:flex;justify-content:space-between;width:100%;margin-bottom:8px;">
+                                    <span>Transportation</span>
+                                    <span style="font-weight:600;">$2,100</span>
+                                </div>
+                                <div class="budget-progress">
+                                    <div class="progress-bar" style="width:60%;"></div>
+                                </div>
+                            </div>
+                            <div class="budget-item" style="flex-direction:column;align-items:flex-start;">
+                                <div style="display:flex;justify-content:space-between;width:100%;margin-bottom:8px;">
+                                    <span>Activities</span>
+                                    <span style="font-weight:600;">$1,800</span>
+                                </div>
+                                <div class="budget-progress">
+                                    <div class="progress-bar" style="width:80%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Timeline -->
+                <div class="card">
+                    <div class="panel">
+                        <h2>📅 Timeline</h2>
+                        <div class="timeline">
+                            <div class="event-item">
+                                <div>
+                                    <p style="font-size:.85rem;color:var(--muted);">Today</p>
+                                    <h4>Planned Tokyo trip</h4>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div>
+                                    <p style="font-size:.85rem;color:var(--muted);">Tomorrow</p>
+                                    <h4>Flight booking deadline</h4>
+                                </div>
+                            </div>
+                            <div class="event-item">
+                                <div>
+                                    <p style="font-size:.85rem;color:var(--muted);">Aug 5</p>
+                                    <h4>Depart for Tokyo</h4>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="script.js"></script>
+</body>
+</html>
